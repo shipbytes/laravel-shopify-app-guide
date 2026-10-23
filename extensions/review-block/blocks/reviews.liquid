@@ -1,0 +1,66 @@
+{%- comment -%}
+  The storefront review block. Liquid renders what Shopify already knows (the product,
+  the rating metafields the app keeps in sync); the script fetches the reviews
+  themselves through the app proxy and posts new ones the same way.
+{%- endcomment -%}
+{%- assign product = block.settings.product -%}
+{%- assign rating = product.metafields['$app:reviewmini'].rating_average.value -%}
+{%- assign rounded = rating | round -%}
+{%- assign count = product.metafields['$app:reviewmini'].rating_count.value | default: 0 -%}
+
+<div
+  class="reviewmini"
+  data-reviewmini
+  data-product-id="{{ product.id }}"
+  data-product-title="{{ product.title | escape }}"
+  data-endpoint="{{ routes.root_url | append: 'apps/reviews' | replace: '//', '/' }}"
+>
+  <h2 class="reviewmini__heading">{{ block.settings.heading | default: 'Customer reviews' }}</h2>
+
+  <p class="reviewmini__summary">
+    {%- if count > 0 -%}
+      {%- render 'stars', rating: rounded -%}
+      {{ rating | round: 1 }} {{ 'reviews.summary.out_of' | t }} · {{ count }} {{ 'reviews.summary.reviews' | t }}
+    {%- else -%}
+      {{ 'reviews.summary.none' | t }}
+    {%- endif -%}
+  </p>
+
+  <ol class="reviewmini__list" data-reviewmini-list aria-live="polite"></ol>
+
+  {%- if block.settings.show_form -%}
+    <form class="reviewmini__form" data-reviewmini-form>
+      <h3>{{ 'reviews.form.heading' | t }}</h3>
+      <label>{{ 'reviews.form.name' | t }} <input name="author_name" required maxlength="100"></label>
+      <label>{{ 'reviews.form.email' | t }} <input name="author_email" type="email" maxlength="255"></label>
+      <label>{{ 'reviews.form.rating' | t }}
+        <select name="rating" required>
+          <option value="5">★★★★★</option>
+          <option value="4">★★★★</option>
+          <option value="3">★★★</option>
+          <option value="2">★★</option>
+          <option value="1">★</option>
+        </select>
+      </label>
+      <label>{{ 'reviews.form.title' | t }} <input name="title" maxlength="150"></label>
+      <label>{{ 'reviews.form.body' | t }} <textarea name="body" required rows="4" maxlength="3000"></textarea></label>
+      <button type="submit" class="button">{{ 'reviews.form.submit' | t }}</button>
+      <p class="reviewmini__status" data-reviewmini-status role="status"></p>
+    </form>
+  {%- endif -%}
+</div>
+
+<link rel="stylesheet" href="{{ 'reviews.css' | asset_url }}">
+<script src="{{ 'reviews.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Product reviews",
+  "target": "content",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "autofill": true },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Customer reviews" },
+    { "type": "checkbox", "id": "show_form", "label": "Show the review form", "default": true }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,5 @@
+<span class="reviewmini__stars" aria-label="{{ rating }} {{ 'reviews.summary.out_of' | t }}">
+  {%- for i in (1..rating) -%}★{%- endfor -%}
+  {%- assign blank_stars = 5 | minus: rating -%}
+  {%- for i in (1..blank_stars) -%}☆{%- endfor -%}
+</span>

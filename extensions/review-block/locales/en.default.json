@@ -1,0 +1,21 @@
+{
+  "reviews": {
+    "summary": {
+      "out_of": "out of 5",
+      "reviews": "reviews",
+      "none": "No reviews yet. Be the first."
+    },
+    "form": {
+      "heading": "Write a review",
+      "name": "Your name",
+      "email": "Email (not published)",
+      "rating": "Rating",
+      "title": "Title",
+      "body": "Review",
+      "submit": "Submit review",
+      "thanks": "Thanks! Your review is published.",
+      "pending": "Thanks! Your review will appear once the shop approves it.",
+      "error": "Sorry, that did not go through. Check the fields and try again."
+    }
+  }
+}

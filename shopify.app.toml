@@ -35,6 +35,13 @@ api_version = "2026-10"
 [build]
 automatically_update_urls_on_dev = true
 
+# The storefront block calls https://<shop>/apps/reviews/...; Shopify forwards those
+# requests to the app's /storefront/... routes with a signed query string.
+[app_proxy]
+url = "https://reviewmini.shipbytes.dev/storefront"
+subpath = "reviews"
+prefix = "apps"
+
 [auth]
 # Token exchange needs no OAuth redirect, but the CLI still wants one entry here and
 # rewrites it to the tunnel during `shopify app dev`.
