@@ -20,6 +20,8 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="SHOPIFY_API_KEY" value="test-client-id"/>
+        <env name="SHOPIFY_API_SECRET" value="test-client-secret-at-least-32-bytes-long"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
