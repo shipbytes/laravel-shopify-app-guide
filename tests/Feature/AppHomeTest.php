@@ -62,7 +62,8 @@ class AppHomeTest extends TestCase
         $response = $this->get('/?shop=test-shop.myshopify.com&id_token='.$this->idToken());
 
         $response->assertOk();
-        $response->assertSee('Installed on test-shop.myshopify.com');
+        $response->assertSee('<div id="app"></div>', escape: false);
+        $response->assertSee('<meta name="shopify-api-key" content="test-client-id">', escape: false);
         $this->assertStringContainsString(
             'frame-ancestors https://test-shop.myshopify.com',
             $response->headers->get('Content-Security-Policy'),
