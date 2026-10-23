@@ -1,0 +1,8 @@
+# Tells the Shopify CLI how to run this app during `shopify app dev`. The CLI starts the
+# dev command below, sets SERVER_PORT (which `php artisan serve` reads), and tunnels to it.
+name = "ReviewMini"
+roles = ["frontend", "backend"]
+webhooks_path = "/api/webhooks"
+
+[commands]
+dev = "php artisan serve"

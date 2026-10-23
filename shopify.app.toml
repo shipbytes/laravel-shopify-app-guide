@@ -1,0 +1,22 @@
+# The app's configuration. `shopify app config link` created the app record and wrote client_id;
+# `shopify app dev` keeps application_url and redirect_urls pointed at the current tunnel;
+# `shopify app deploy` uploads the rest (scopes, webhooks, events) to Shopify.
+client_id = "fe474784a47726e6213eb880b74c9852"
+name = "ReviewMini"
+application_url = "https://shopify.dev/apps/default-app-home"
+embedded = true
+
+[access_scopes]
+scopes = "read_products,write_products"
+
+[webhooks]
+api_version = "2026-10"
+
+[build]
+include_config_on_deploy = true
+automatically_update_urls_on_dev = true
+
+[auth]
+# Token exchange needs no OAuth redirect, but the CLI still wants one entry here and
+# rewrites it to the tunnel during `shopify app dev`.
+redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]
