@@ -12,6 +12,26 @@ scopes = "read_products,write_products"
 [webhooks]
 api_version = "2026-10"
 
+  # Classic webhooks: the app lifecycle and the three privacy topics every app must answer.
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/api/webhooks"
+
+  [[webhooks.subscriptions]]
+  compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
+  uri = "/api/webhooks"
+
+# Events: the newer delivery mechanism, GraphQL-shaped. One subscription, so that reviews
+# of a deleted product are deleted with it.
+[events]
+api_version = "2026-10"
+
+  [[events.subscription]]
+  handle = "product-deleted"
+  topic = "Product"
+  actions = [ "delete" ]
+  uri = "/api/events"
+
 [build]
 automatically_update_urls_on_dev = true
 

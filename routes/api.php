@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\EventsController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\ShopController;
+use App\Http\Controllers\Api\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 // JSON endpoints called by the admin UI with fetch(). App Bridge attaches the ID token
@@ -21,4 +23,11 @@ Route::middleware('shopify.app-home')->group(function () {
 
     Route::get('/settings', [SettingsController::class, 'show']);
     Route::put('/settings', [SettingsController::class, 'update']);
+});
+
+// Deliveries pushed by Shopify. Verified by HMAC, not by an ID token, and exempt from
+// the per-IP rate limit: a busy shop can send bursts from the same addresses.
+Route::middleware('shopify.webhook')->withoutMiddleware('throttle:api')->group(function () {
+    Route::post('/webhooks', WebhookController::class);
+    Route::post('/events', EventsController::class);
 });

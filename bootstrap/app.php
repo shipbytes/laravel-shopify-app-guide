@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AuthenticateAppHome;
+use App\Http\Middleware\VerifyShopifyWebhook;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'shopify.app-home' => AuthenticateAppHome::class,
+            'shopify.webhook' => VerifyShopifyWebhook::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
