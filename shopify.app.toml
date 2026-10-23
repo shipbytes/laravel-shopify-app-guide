@@ -3,7 +3,7 @@
 # `shopify app deploy` uploads the rest (scopes, webhooks, events) to Shopify.
 client_id = "fe474784a47726e6213eb880b74c9852"
 name = "ReviewMini"
-application_url = "https://shopify.dev/apps/default-app-home"
+application_url = "https://reviewmini.shipbytes.dev"
 embedded = true
 
 [access_scopes]
@@ -13,10 +13,23 @@ scopes = "read_products,write_products"
 api_version = "2026-10"
 
 [build]
-include_config_on_deploy = true
 automatically_update_urls_on_dev = true
 
 [auth]
 # Token exchange needs no OAuth redirect, but the CLI still wants one entry here and
 # rewrites it to the tunnel during `shopify app dev`.
-redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]
+redirect_urls = [ "https://reviewmini.shipbytes.dev/auth/patch-id-token" ]
+
+# App-owned product metafields, created on every shop by `shopify app deploy`. The
+# storefront block in part 6 reads them, so they are public on the storefront.
+[product.metafields.reviewmini.rating_average]
+name = "Rating average"
+description = "Average rating of approved ReviewMini reviews, 1 to 5"
+type = "number_decimal"
+access.storefront = "public_read"
+
+[product.metafields.reviewmini.rating_count]
+name = "Rating count"
+description = "Number of approved ReviewMini reviews"
+type = "number_integer"
+access.storefront = "public_read"

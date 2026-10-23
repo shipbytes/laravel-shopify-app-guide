@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Shopify\App\Types\TokenExchangeAccessToken;
 
 class Shop extends Model
@@ -19,6 +21,17 @@ class Shop extends Model
             'installed_at' => 'datetime',
             'uninstalled_at' => 'datetime',
         ];
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    /** Settings always exist from the app's point of view; a shop without a row gets the defaults. */
+    public function settings(): HasOne
+    {
+        return $this->hasOne(ShopSettings::class)->withDefault();
     }
 
     /** The full myshopify domain, e.g. "example-store.myshopify.com". */
